@@ -13,7 +13,7 @@ class ApiException extends Exception
 
     public function __construct($code = 0, $message = "", Throwable $previous = null)
     {
-        $message = __R__($code ?? RetConstant::SERVER_CRASH);
+        $message = $message?:__R__($code ?? RetConstant::SERVER_CRASH);
         parent::__construct($message, $code, $previous);
     }
 

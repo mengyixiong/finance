@@ -7,7 +7,7 @@
     <el-row style="margin-bottom: 10px">
       <el-col :span="4">
         <el-dropdown>
-          <el-button type="primary">
+          <el-button type="primary" class="op-btn">
             <i class="iconfont icon-ziyuanxhdpi"></i> 创建 或 过滤员工 <i class="iconfont icon-xiala"></i>
           </el-button>
           <el-dropdown-menu slot="dropdown">
@@ -39,8 +39,6 @@
         </el-input>
       </el-col>
     </el-row>
-
-
     <el-row style="margin-bottom: 10px">
       <el-table
         :height="640"
@@ -53,15 +51,15 @@
       >
         <el-table-column align="center" label="操作" width="200">
           <template slot-scope="scope">
-            <el-button type="primary" size="mini">
+            <el-button type="primary" class="op-btn" size="mini">
               <i class="iconfont icon-bianji"></i> 编辑
             </el-button>
-            <el-button type="success" size="mini">
+            <el-button type="success" class="op-btn" size="mini">
               <i class="iconfont icon-xuanzhong-"></i>密码
             </el-button>
           </template>
         </el-table-column>
-        <el-table-column label="头像" >
+        <el-table-column label="头像">
           <template slot-scope="scope">
             <el-avatar size="medium" :src="scope.row.avatar"></el-avatar>
           </template>
@@ -79,7 +77,7 @@
 
         <el-table-column label="冻结" align="left">
           <template slot-scope="scope">
-            <el-button :type="scope.row.is_freeze === 'Y'?'danger':'success'" size="mini">
+            <el-button :type="scope.row.is_freeze === 'Y'?'danger':'success'" class="op-btn" size="mini">
               {{ scope.row.is_freeze === 'Y' ? '是' : '否' }}
             </el-button>
           </template>
@@ -118,13 +116,16 @@
       </el-pagination>
     </el-row>
 
+    <create :dialogFormVisible.sync="dialogFormVisible" @added="fetchData"></create>
   </div>
 </template>
 
 <script>
 import {getList, getPageConfig} from '@/api/system/user'
+import Create from "@/views/system/user/create.vue";
 
 export default {
+  components: {Create},
   computed: {
     // 计算属性定义
     labelText() {
@@ -137,6 +138,7 @@ export default {
   },
   data() {
     return {
+      dialogFormVisible: false,
       // 类型
       options: {
         formats: [],
@@ -169,7 +171,7 @@ export default {
      * 添加
      */
     add() {
-
+      this.dialogFormVisible = true;
     },
 
     /**
@@ -200,15 +202,15 @@ export default {
   padding: 4px 0;
 }
 
-.el-button {
+.op-btn {
   border-radius: unset;
-  font-size: 12px;
-  padding: 5px 5px;
+  font-size: 14px;
+  padding: 5px 10px;
   color: white;
   border: none;
 }
 
-.el-button + .el-button {
+.op-btn + .op-btn {
   margin-left: 0;
 }
 </style>

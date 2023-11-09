@@ -28,7 +28,7 @@ class Handler extends ExceptionHandler
     {
         # 配置未捕获异常的日志记录
         $this->reportable(function (Throwable $e) {
-            logger()->error($e->getMessage(), [
+            Log::error($e->getMessage(), [
                 'file' => $e->getFile(),
                 'line' => $e->getLine()
             ]);
@@ -37,8 +37,9 @@ class Handler extends ExceptionHandler
         # 配置未捕获异常的返回
         $this->renderable(function (Throwable $e, $request) {
             if ($request->is('api/*')) {
+                dd($e);
                 // 对于 API 请求，你可以返回自定义的 JSON 响应
-                return erred(RetConstant::FAIL, '服务器崩溃');
+                return erred(RetConstant::FAIL, __R__(RetConstant::SERVER_CRASH));
             }
         });
     }

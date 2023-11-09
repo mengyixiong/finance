@@ -23,14 +23,14 @@ class StoreUserRequest extends BaseRequest
     {
 
         $rules = [
-            'username' => 'required|min:6|max:16|unique:users,username',
+            'username' => 'required|min:4|max:16|unique:users,username',
             'email' => 'nullable|email',
             'nickname' => 'required|string|min:2|max:4',
             'created_by' => 'required|integer',
             'updated_by' => 'required|integer'
         ];
         if ($this->filled('id')) {
-            $rules['username'] = 'required|min:6|max:16|unique:users,username,' . $this->get('id');
+            $rules['username'] = 'required|min:4|max:16|unique:users,username,' . $this->get('id');
         }
         return $rules;
     }
@@ -40,8 +40,8 @@ class StoreUserRequest extends BaseRequest
         return [
             'username.required' => '用户名不能为空。',
             'username.unique' => '用户名已经存在。',
-            'username.min' => '用户名的长度在6-16个字符之间。',
-            'username.max' => '用户名的长度在6-16个字符之间。',
+            'username.min' => '用户名的长度在4-16个字符之间。',
+            'username.max' => '用户名的长度在4-16个字符之间。',
             'email.email' => '请填写正确的邮箱。',
             'nickname.required' => '真实姓名不能为空。',
             'nickname.min' => '真实姓名的长度在2-4个字符之间。',

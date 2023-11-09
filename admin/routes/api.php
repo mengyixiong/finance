@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\data\AccountTitleController;
 use App\Http\Controllers\auth\AuthController;
+use App\Http\Controllers\PublicController;
 use App\Http\Controllers\system\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,11 +23,18 @@ use Illuminate\Support\Facades\Route;
 //    });
 //});
 
+# 公共路由
+Route::group([
+    'prefix' => 'public'
+], function () {
+    Route::post('upload_avatar', [PublicController::class, 'uploadAvatar']);
+});
 
-Route::middleware(['api'])->group(function() {
-    Route::post('/auth/login', [AuthController::class,'login']);
-    Route::get('/auth/info', [AuthController::class,'info']);
-    Route::post('/auth/logout', [AuthController::class,'logout']);
+
+Route::middleware(['api'])->group(function () {
+    Route::post('/auth/login', [AuthController::class, 'login']);
+    Route::get('/auth/info', [AuthController::class, 'info']);
+    Route::post('/auth/logout', [AuthController::class, 'logout']);
 });
 # 授权控制器
 

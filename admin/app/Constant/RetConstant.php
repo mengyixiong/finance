@@ -18,4 +18,5 @@ class RetConstant
     # 返回文字
     const USER_ADD_SUCCESS = 'user_add_success';
     const SERVER_CRASH = 'server_crash';
+
 }

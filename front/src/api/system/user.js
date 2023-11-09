@@ -9,11 +9,18 @@ export function getPageConfig() {
   })
 }
 
-
 export function getList(params) {
   return request({
     url: prefix,
     method: 'get',
     params
+  })
+}
+
+export function addUser(data) {
+  return request({
+    url: prefix,
+    method: 'post',
+    data
   })
 }

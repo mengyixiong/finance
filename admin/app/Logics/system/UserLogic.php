@@ -2,6 +2,7 @@
 
 namespace App\Logics\system;
 
+use App\Constant\ConfigConstant;
 use App\Constant\RetConstant;
 use App\Exceptions\ApiException;
 use App\Http\Requests\system\StoreUserRequest;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserLogic
 {
@@ -31,8 +33,8 @@ class UserLogic
         }
 
         # 冻结
-        if (request()->filled('is_freeze')){
-            $query->where('is_freeze',request()->is_freeze);
+        if (request()->filled('is_freeze')) {
+            $query->where('is_freeze', request()->is_freeze);
         }
 
         $query->orderBy('created_at', 'DESC');
@@ -46,11 +48,15 @@ class UserLogic
      */
     public function addUser(StoreUserRequest $request)
     {
+        # 上传头像
+        $path = $request->file('avatar')->store(ConfigConstant::AVATAR_STORAGE_PATH);
+
         # 获取验证后的数据
         $data = $request->validated();
 
         # 设置初始密码
         $data['password'] = Hash::make("123456");
+        $data['avatar'] = Storage::url($path) ?: ConfigConstant::DEFAULT_AVATAR;
 
         # 添加
         $user = User::create($data);
