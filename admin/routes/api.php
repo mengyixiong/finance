@@ -17,12 +17,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::middleware('api')->get('/user', function (Request $request) {
-//    Route::controller(AuthController::class)->prefix('/auth')->group(function () {
-//        Route::post('/login', 'login');
-//    });
-//});
-
 # 公共路由
 Route::group([
     'prefix' => 'public'
@@ -31,26 +25,27 @@ Route::group([
 });
 
 
+/**
+ * 授权管理
+ */
 Route::middleware(['api'])->group(function () {
     Route::post('/auth/login', [AuthController::class, 'login']);
     Route::get('/auth/info', [AuthController::class, 'info']);
     Route::post('/auth/logout', [AuthController::class, 'logout']);
-});
-# 授权控制器
-
-
-/**
- * 系统管理
- */
-Route::prefix("system")->group(function () {
-    Route::get('/user/info', [UserController::class, 'info']);
-    Route::apiResource('user', UserController::class);
 });
 
 /**
  * 需要登录的api
  */
 Route::middleware('auth:api')->group(function () {
+    /**
+     * 系统管理
+     */
+    Route::prefix("system")->group(function () {
+        Route::get('/user/info', [UserController::class, 'info']);
+        Route::post('/user/reset_password', [UserController::class, 'resetPassword']);
+        Route::apiResource('user', UserController::class);
+    });
 
     /**
      * 财务资料
@@ -60,7 +55,6 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/account_title/page_config', [AccountTitleController::class, 'pageConfig']);
         Route::apiResource('account_title', AccountTitleController::class);
     });
-
 
 });
 

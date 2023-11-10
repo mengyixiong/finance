@@ -51,12 +51,19 @@
       >
         <el-table-column align="center" label="操作" width="200">
           <template slot-scope="scope">
-            <el-button type="primary" class="op-btn" size="mini">
-              <i class="iconfont icon-bianji"></i> 编辑
-            </el-button>
-            <el-button type="success" class="op-btn" size="mini">
-              <i class="iconfont icon-xuanzhong-"></i>密码
-            </el-button>
+
+            <el-dropdown>
+              <el-button type="primary" size="mini">
+                更多菜单<i class="el-icon-arrow-down el-icon--right"></i>
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item><i class="iconfont icon-bianji"></i> 编辑</el-dropdown-item>
+                <el-dropdown-item divided><i class="iconfont icon-bianji"></i> 重置密码</el-dropdown-item>
+                <el-dropdown-item divided><i class="iconfont icon-xuanzhong-"></i> 分配角色</el-dropdown-item>
+                <el-dropdown-item divided><i class="iconfont icon-bianji"></i> 删除</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+
           </template>
         </el-table-column>
         <el-table-column label="头像">

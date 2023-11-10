@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\system;
 
 use App\Constant\RetConstant;
+use App\Exceptions\ApiException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\system\StoreUserRequest;
 use App\Logics\system\UserLogic;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use function Laravel\Prompts\error;
@@ -37,12 +39,26 @@ class UserController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * @throws ApiException
      */
-    public function store(StoreUserRequest $request)
+    public function store(StoreUserRequest $request): JsonResponse
     {
         return succeed(
             $this->logic->addUser($request),
             __R__(RetConstant::USER_ADD_SUCCESS)
+        );
+    }
+
+    /**
+     * 重置密码
+     * @return JsonResponse
+     * @throws ApiException
+     */
+    public function resetPassword(): JsonResponse
+    {
+        return succeed(
+            $this->logic->resetPassword(),
+            __R__(RetConstant::RESET_PASSWORD_SUCCESS)
         );
     }
 

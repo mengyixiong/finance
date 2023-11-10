@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class UserLogic
 {
@@ -48,15 +49,13 @@ class UserLogic
      */
     public function addUser(StoreUserRequest $request)
     {
-        # 上传头像
-        $path = $request->file('avatar')->store(ConfigConstant::AVATAR_STORAGE_PATH);
 
         # 获取验证后的数据
         $data = $request->validated();
 
         # 设置初始密码
         $data['password'] = Hash::make("123456");
-        $data['avatar'] = Storage::url($path) ?: ConfigConstant::DEFAULT_AVATAR;
+        $data['avatar'] = $request->avatar ?? ConfigConstant::DEFAULT_AVATAR;
 
         # 添加
         $user = User::create($data);
@@ -67,4 +66,33 @@ class UserLogic
 
         return $user;
     }
+
+    public function resetPassword()
+    {
+        # 判断上
+        $validator = Validator::make(request()->all(), [
+            'old_password' => 'required',
+            'new_password' => 'required|min:6|max:16',
+        ], [
+            'old_password.required' => '旧密码不能为空',
+            'new_password.required' => '新密码不能为空',
+            'new_password.min' => '密码在6-16个字符之间',
+            'new_password.max' => '密码在6-16个字符之间',
+        ]);
+        if ($validator->stopOnFirstFailure()->fails()) {
+            throw new ApiException(RetConstant::FAIL, $validator->errors()->first());
+        }
+
+        # 获取验证后的数据
+        $data = $validator->validated();
+
+        return auth()->user();
+        # 更新登录时间和登录IP
+        auth()->user()->update([
+            'last_login_at' => now(),
+            'last_login_ip' => request()->ip(),
+        ]);
+
+    }
+
 }

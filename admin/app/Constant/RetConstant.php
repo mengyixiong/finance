@@ -14,9 +14,11 @@ class RetConstant
     const TOKEN_EXPIRED = 50014;
     const USER_NOT_FOUND = 50015;
     const USER_ADD_FAIL = 50016;
+    const ROUTE_NOT_FOUND = 50017;
 
     # 返回文字
     const USER_ADD_SUCCESS = 'user_add_success';
+    const RESET_PASSWORD_SUCCESS = 'reset_password_success';
     const SERVER_CRASH = 'server_crash';
 
 }

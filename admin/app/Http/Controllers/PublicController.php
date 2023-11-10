@@ -14,7 +14,7 @@ class PublicController extends Controller
 
     /**
      * 上传头像
-     * @return void
+     * @throws ApiException
      */
     public function uploadAvatar(Request $request)
     {
