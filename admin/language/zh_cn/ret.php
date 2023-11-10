@@ -8,7 +8,7 @@ return [
     RetConstant::LOGIN_FAIL => '登录失败',
     RetConstant::ILLEGAL_TOKEN => '非法的令牌',
     RetConstant::OTHER_CLIENTS_LOGGED_IN => '其他已登录的客户端',
-    RetConstant::TOKEN_EXPIRED => '令牌过期',
+    RetConstant::TOKEN_EXPIRED => '令牌过期,请重新登录',
     RetConstant::USER_ADD_SUCCESS => '添加用户成功',
     RetConstant::SERVER_CRASH => '服务器崩溃，请联系管理员',
     RetConstant::RESET_PASSWORD_SUCCESS => '重置密码成功',

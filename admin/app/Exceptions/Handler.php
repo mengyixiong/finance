@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use App\Constant\RetConstant;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -37,6 +38,17 @@ class Handler extends ExceptionHandler
         });
 
         /**
+         * AuthenticationException 认证失败异常
+         */
+        $this->renderable(function (AuthenticationException $e, $request) {
+            if ($request->is('api/*')) {
+
+                // 对于 API 请求，你可以返回自定义的 JSON 响应
+                return erred(RetConstant::ILLEGAL_TOKEN);
+            }
+        });
+
+        /**
          * MethodNotAllowedHttpException 是在 HTTP 请求方法不被允许时抛出的异常，例如，当客户端对某个路由使用了不支持的 HTTP 方法时。
          * 这种异常通常在路由层面就被捕获并处理，所以它可能不会到达 reportable 方法。
          */
@@ -50,6 +62,7 @@ class Handler extends ExceptionHandler
 
         # 配置未捕获异常的返回
         $this->renderable(function (Throwable $e, $request) {
+            dd($e);
             if ($request->is('api/*')) {
 
                 // 对于 API 请求，你可以返回自定义的 JSON 响应
